@@ -1,0 +1,28 @@
+name: heartbeat
+
+heartbeat.monitors:
+- type: http
+  schedule: '@every 5s'
+  urls:
+    - http://elasticsearch:9200
+  
+- type: icmp
+  schedule: '@every 5s'
+  hosts:
+    - 172.31.27.252
+processors:
+- add_cloud_metadata: ~
+
+monitoring:
+  enabled: true
+  elasticsearch:
+
+output.elasticsearch:
+  hosts: [ http://elasticsearch:9200 ]
+  #Create User in Kibana UI and provide credentials
+  #username: beatusr  
+  #password: beat1234
+
+http:
+  enabled: true
+  host: 0.0.0.0

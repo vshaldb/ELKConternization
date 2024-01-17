@@ -1,0 +1,7 @@
+## Default Elasticsearch configuration from Elasticsearch base image.
+cluster.name: docker-cluster
+network.hosts: 0.0.0.0
+
+## x-pack settings
+xpack.license.self_generated.type: trial
+xpack.security.enabled: true

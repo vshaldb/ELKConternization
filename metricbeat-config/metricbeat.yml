@@ -1,0 +1,57 @@
+name: metricbeat
+
+metricbeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+metricbeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+
+metricbeat.modules:
+
+
+- module: system
+  metricsets:
+    - cpu
+    - load
+    - memory
+    - network
+    - process
+    - process_memory
+    - uptime
+    - socket_summary
+    - core
+    - diskio
+  enabled: true
+  period: 10s
+  processes: ['.*']
+
+  cpu.metrics: ["percentages","normalized_percentages"] #The other available option is ticks
+  cpu.metrics: ["percentages"] #The other available option is ticks
+
+
+  processors:
+    - add_cloud_metadata: ~
+
+  monitoring:
+    enabled: true
+    elasticsearch:
+      hosts: ["http://elasticsearch:9200"]
+
+  output.elasticsearch:
+    hosts: ["elasticsearch:9200"]
+    #Create User in Kibana UI and provide credentials
+    #username: beatusr  
+    #password: beat1234
+
+  #output.logstash:
+  #  hosts: ["logstash:5044"]
+
+  #HTTP endpoint for health checking
+    http:
+      enabled: true
+      host: 0.0.0.0
+

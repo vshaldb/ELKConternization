@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  heartbeat:
+    image: docker.elastic.co/beats/heartbeat:8.10.4
+    command:
+      - -e
+      - --strict.perms=false
+    volumes:
+      - ./heartbeat-config/heartbeat.yml:/usr/share/heartbeat/heartbeat.yml:ro,Z
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
